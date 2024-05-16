@@ -3,6 +3,7 @@ package com.proyect;
 public class Student {
 private String name;
 private int ID;
+
 public Student(String name, int iD) {
     this.name = name;
     this.ID  = iD;
