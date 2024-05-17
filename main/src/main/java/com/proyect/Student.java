@@ -22,6 +22,6 @@ public void setID(int iD) {
 }
 @Override
 public String toString() {
-    return "Student [name=" + name + ", ID=" + ID + "]";
+    return "Student  nombre " + name + " Cedula " + ID ;
 }
 }

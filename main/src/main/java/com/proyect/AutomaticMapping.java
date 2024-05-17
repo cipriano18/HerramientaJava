@@ -1,10 +1,22 @@
 package com.proyect;
 
+
+
+
+
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.mysql.cj.jdbc.CallableStatement;
+
+
 
 public class AutomaticMapping {
     private Connection connection;
@@ -16,14 +28,14 @@ public class AutomaticMapping {
     public void mapClassToTable(Object object) { 
         try {
             Class<?> clase = object.getClass();
-            String nombreTabla = clase.getSimpleName().toLowerCase(); // Suponemos que el nombre de la tabla es igual al nombre de la clase en minúsculas
+            String nombreTabla = clase.getSimpleName().toLowerCase(); 
 
-            // Verificar si la tabla ya existe en la base de datos
+           
             if (!tableExists(nombreTabla)) {
                 createTable(nombreTabla, clase);
             }
 
-            // Construir la sentencia SQL de inserción
+            
             Field[] fields = clase.getDeclaredFields();
             StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.append("INSERT INTO ").append(nombreTabla).append(" (");
@@ -57,7 +69,43 @@ public class AutomaticMapping {
             System.err.println("Error al mapear la clase a la tabla: " + e.getMessage());
         }
     }
-
+    public void eliminar(String nombreTabla, String nombreEstudiante) {
+        try {
+            String query = "DELETE FROM " + nombreTabla + " WHERE name = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, nombreEstudiante);
+                int delete = statement.executeUpdate();
+                System.out.println("Filas eliminadas: " + delete);
+    
+                if (delete > 0 ) {
+                    System.out.println("Estudiante '" + nombreEstudiante + "' eliminado exitosamente." );
+                } else {
+                    System.out.println("El estudiante '" + nombreEstudiante + "' no existe en la tabla '" + nombreTabla + "'.");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al eliminar estudiante de la tabla: " + e.getMessage());
+        }
+    }
+    public void buscarPorNombre(String nombreTabla, String nombreEstudiante) {
+        try {
+            String query = "SELECT * FROM " + nombreTabla + " WHERE NAME = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, nombreEstudiante);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        int id = resultSet.getInt("ID");
+                        String nombre = resultSet.getString("NAME");
+                        Student student = new Student(nombre, id); 
+                        System.out.println(student.toString());
+                    }
+                }
+                System.out.println("Estudiante no encontrado");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al buscar por nombre en la tabla: " + e.getMessage());
+        }
+    }
     private boolean tableExists(String tableName) throws SQLException {
         // Consulta para verificar si la tabla existe en la base de datos
         String query = "SELECT COUNT(*) FROM user_tables WHERE table_name = ?";
@@ -71,6 +119,29 @@ public class AutomaticMapping {
             }
         }
         return false;
+    }
+    public List<Map<String, Object>> recuperarDeTabla(String nombreTabla) {
+        List<Map<String, Object>> resultados = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM " + nombreTabla;
+            try (PreparedStatement statement = connection.prepareStatement(query);
+                 ResultSet resultSet = statement.executeQuery()) {
+                java.sql.ResultSetMetaData metaData = resultSet.getMetaData();
+                int columnCount = metaData.getColumnCount();
+                while (resultSet.next()) {
+                    Map<String, Object> fila = new HashMap<>();
+                    for (int i = 1; i <= columnCount; i++) {
+                        String nombreColumna = metaData.getColumnName(i);
+                        Object valorColumna = resultSet.getObject(i);
+                        fila.put(nombreColumna, valorColumna);
+                    }
+                    resultados.add(fila);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al recuperar objetos de la tabla: " + e.getMessage());
+        }
+        return resultados;
     }
 
     private void createTable(String tableName, Class<?> clase) throws SQLException {
@@ -107,4 +178,42 @@ public class AutomaticMapping {
                 return "VARCHAR(255)"; // Por defecto, mapeamos a VARCHAR
         }
     }
+    public void insertarDatos(String nombreTabla, Class<?> clase, Object objeto) throws SQLException, IllegalAccessException {
+        if (nombreTabla == null || clase == null) {
+            throw new IllegalArgumentException("El nombre de la tabla y la clase no pueden ser nulos.");
+        }
+    
+        StringBuilder query = new StringBuilder("INSERT INTO ").append(nombreTabla).append(" (");
+        StringBuilder values = new StringBuilder("VALUES (");
+    
+        Field[] campos = clase.getDeclaredFields();
+        for (Field campo : campos) {
+            campo.setAccessible(true);
+            String nombreCampo = campo.getName();
+            Object valor; // Aquí cambia object por objeto
+            valor = campo.get(objeto);
+            query.append(nombreCampo).append(", ");
+            values.append("?, ");
+        }
+    
+        query.delete(query.length() - 2, query.length());
+        values.delete(values.length() - 2, values.length());
+    
+        query.append(") ");
+        values.append(")");
+    
+        String insertQuery = query.toString() + values.toString();
+    
+        try (PreparedStatement statement = connection.prepareStatement(insertQuery)) {
+            int index = 1;
+            for (Field campo : campos) {
+                campo.setAccessible(true);
+                Object valorCampo = campo.get(objeto);
+                statement.setObject(index++, valorCampo);
+            }
+            statement.executeUpdate();
+            System.out.println("Datos insertados en la tabla " + nombreTabla + " correctamente.");
+        }
+    }
+    
 }
