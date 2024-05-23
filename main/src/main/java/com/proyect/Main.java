@@ -2,75 +2,71 @@ package com.proyect;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IllegalAccessException {
+    public static void main(String[] args) throws IllegalAccessException, SQLException {
+        // Conexión a la base de datos
+        Connection conexionOracle = ConnectionsToDatabases.connectOracle();
+
+        // Crear una instancia de AutomaticMapping con la conexión
+        AutomaticMapping automaticMapping = new AutomaticMapping(conexionOracle);
+
+        // Crear una instancia de Student y asignar automaticMapping
+        Student student = new Student();
+        student.setAutomaticMapping(automaticMapping);
+
+        // Uso de try-with-resources para cerrar el Scanner automáticamente
         try (Scanner scanner = new Scanner(System.in)) {
-            Connection conexionOracle = ConnectionsToDatabases.connectOracle();
-            AutomaticMapping automaticMapping = new AutomaticMapping(conexionOracle);
-            String nombreTabla = Student.class.getSimpleName();
-            boolean salir = false;
-            while (!salir) {
+            boolean exit = false;
+
+            while (!exit) {
                 System.out.println("Menú:");
                 System.out.println("1. Insertar datos en la base de datos");
-                System.out.println("2. Recuperar datos de la tabla");
-                System.out.println("3. Eliminar estudiante de la tabla");
-                System.out.println("4. Mostrar todos los estudiantes");
+                System.out.println("2. Eliminar estudiante de la tabla");
+                System.out.println("3. Mostrar todos los estudiantes");
+                System.out.println("4. Buscar estudiante por ID");
+                System.out.println("5. Actualizar un estudiante");
                 System.out.println("6. Salir");
                 System.out.print("Seleccione una opción: ");
                 int opcion = scanner.nextInt();
-                scanner.nextLine();
 
                 switch (opcion) {
                     case 1:
                         System.out.println("Ingrese el nombre del estudiante:");
-                        String name = scanner.nextLine();
-                        System.out.println("Ingrese la edad del estudiante:");
-                        int age = scanner.nextInt();
-                        Student newStudent = new Student(name, age);
-
-                        automaticMapping.mapClassToTable(newStudent);
+                        String nombre = scanner.nextLine();
+                        nombre = scanner.nextLine();
+                        System.out.println("Ingrese el número de cédula del estudiante:");
+                        int id = scanner.nextInt();
+                        student.insert(nombre, id);
                         break;
                     case 2:
-                        System.out.println("Ingrese el ID a buscar:");
-                        int id = scanner.nextInt();
-                        Map<String, Object> result = automaticMapping.getByID(nombreTabla, id);
-                        if (!result.isEmpty()) {
-                            System.out.println("Resultados encontrados:");
-                            for (Map.Entry<String, Object> entry : result.entrySet()) {
-                                System.out.println(entry.getKey() + ": " + entry.getValue());
-                            }
-                        } else {
-                            System.out.println("No se encontraron resultados para el ID proporcionado.");
-                        }
-
+                        System.out.print("Ingrese el ID a eliminar: ");
+                        int idEliminar = scanner.nextInt();
+                        student.delete(idEliminar);
                         break;
                     case 3:
-                        System.out.println("Ingrese el id a eliminar:");
-                        String nombreEliminar = scanner.nextLine();
-                        automaticMapping.eliminar(nombreTabla, nombreEliminar);
+                    System.out.print("Ingrese el ID a buscar: ");
+                        int idBuscar = scanner.nextInt();
+                        student.searchById(idBuscar);
                         break;
                     case 4:
-                        List<Map<String, Object>> resultados = automaticMapping.recuperarDeTabla(nombreTabla);
-                        for (Map<String, Object> fila : resultados) {
-                            System.out.println(fila);
-                        }
+                    student.retrieveAll();
                         break;
                     case 5:
-                        salir = true;
+                        System.out.print("Ingrese el ID a actualizar: ");
+                        int idActualizar = scanner.nextInt();
+                        student.update(idActualizar);
                         break;
-
+                    case 6:
+                        System.out.println("Saliendo...");
+                        exit = true;
+                        break;
                     default:
-                        System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
+                        System.out.println("Opción no válida");
                         break;
                 }
             }
-            conexionOracle.close();
-        } catch (SQLException e) {
-            System.err.println("Error al conectar con la base de datos: " + e.getMessage());
         }
     }
 }
