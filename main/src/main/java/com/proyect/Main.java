@@ -6,17 +6,10 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IllegalAccessException, SQLException {
-        // Conexión a la base de datos
         Connection conexionOracle = ConnectionsToDatabases.connectOracle();
-
-        // Crear una instancia de AutomaticMapping con la conexión
         AutomaticMapping automaticMapping = new AutomaticMapping(conexionOracle);
-
-        // Crear una instancia de Student y asignar automaticMapping
         Student student = new Student();
         student.setAutomaticMapping(automaticMapping);
-
-        // Uso de try-with-resources para cerrar el Scanner automáticamente
         try (Scanner scanner = new Scanner(System.in)) {
             boolean exit = false;
 
