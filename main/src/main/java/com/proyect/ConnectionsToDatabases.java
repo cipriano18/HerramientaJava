@@ -11,6 +11,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 
 public class ConnectionsToDatabases {
+   private final static String user = "cipriano_12";
    private final static String password = "cipri12";
    private final static String databaseName = "prueba"; 
    private final static String host = "127.0.0.1";
