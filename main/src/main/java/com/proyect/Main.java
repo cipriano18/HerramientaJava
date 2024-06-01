@@ -6,13 +6,16 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IllegalAccessException, SQLException {
-        
+  
+        Connection conexionOracle = ConnectionsToDatabases.connectOracle();
+        AutomaticMapping automaticMapping = new AutomaticMapping(conexionOracle);
+
         Student student = new Student();
-     
-     Connection conexionOracle = ConnectionsToDatabases.connectOracle();
-    AutomaticMapping automaticMapping = new AutomaticMapping(conexionOracle);
-      boolean exit = false;
+        student.setAutomaticMapping(automaticMapping);
+
         try (Scanner scanner = new Scanner(System.in)) {
+            boolean exit = false;
+
             while (!exit) {
                 System.out.println("Menú:");
                 System.out.println("1. Insertar datos en la base de datos");
