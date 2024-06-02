@@ -205,4 +205,6 @@ public class AutomaticMapping {
             System.err.println("Error al actualizar la tabla: " + e.getMessage());
         }
     }
+
+    
 }

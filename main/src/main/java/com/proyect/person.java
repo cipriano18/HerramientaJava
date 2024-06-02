@@ -39,7 +39,16 @@ public class person {
         automaticMappingMongo.insert(object, nameClass);
     }
 
-    public void update(String id, Object object , AutomaticMappingMongo automaticMappingMongo) {
-        automaticMappingMongo.update(id, object, nameClass);
+    public void readById(String id, AutomaticMappingMongo automaticMappingMongo) {
+        automaticMappingMongo.readById(id, nameClass);
+    }    
+    public void read(AutomaticMappingMongo automaticMappingMongo) {
+        automaticMappingMongo.read(nameClass);
     }
+    public void  delete(String id, AutomaticMappingMongo automaticMappingMongo){
+        automaticMappingMongo.delete(id, nameClass);
+    }
+    public void update(String id, Object object, AutomaticMappingMongo automaticMappingMongo) {
+        automaticMappingMongo.update(id, object, nameClass);
+    }    
 }

@@ -1,11 +1,16 @@
 package com.proyect;
 
+import static com.mongodb.client.model.Filters.eq;
+
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
+
 import java.lang.reflect.Field;
 
 public class AutomaticMappingMongo {
@@ -43,14 +48,11 @@ public class AutomaticMappingMongo {
         return doc;
     }
 
-    public void create() {
+    public void readById(String id, String collectName) {
 
-    }
+        MongoCollection<Document> collection = mongoDatabase.getCollection(collectName);
 
-    public void readById(String id, String nameClass) {
-        MongoCollection<Document> collection = mongoDatabase.getCollection(nameClass);
-        Document query = new Document("_id", new ObjectId(id));
-        Document doc = collection.find(query).first();
+        Document doc = collection.find(eq("_id", new ObjectId(id))).first();
         if (doc != null) {
             System.out.println(doc.toJson());
         } else {
@@ -58,13 +60,26 @@ public class AutomaticMappingMongo {
         }
     }
 
-    public void read() {
+    public void read(String collectName) {
+        MongoCollection<Document> collections = mongoDatabase.getCollection(collectName);
 
+        for (Document doc : collections.find()) {
+            System.out.println(doc.toJson());
+        }
     }
 
-    public void delete() {
-
+    public void delete(String id, String collectName) {
+        MongoCollection<Document> collection = mongoDatabase.getCollection(collectName);
+        Bson filter = Filters.eq("_id", new ObjectId(id));
+        
+        try {
+            collection.deleteOne(filter);
+            System.out.println("Documento eliminado correctamente.");
+        } catch (Exception e) {
+            System.out.println("Error al eliminar el documento: " + e.getMessage());
+        }
     }
+    
 
     public void update(String id, Object object, String nameClass) {
         try {
