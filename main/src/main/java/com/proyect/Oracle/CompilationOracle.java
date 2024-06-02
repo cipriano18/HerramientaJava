@@ -51,16 +51,16 @@ public class CompilationOracle {
                         student.searchById(idBuscar);
                         break;
                     case 5:
-                        System.out.print("Ingrese el ID a actualizar: ");
-                        int idActualizar = scanner.nextInt();
-                        scanner.nextLine();
-                        System.out.print("Ingrese el nuevo nombre del estudiante: ");
-                        String nuevoNombre = scanner.nextLine();
-                        System.out.print("Ingrese la nueva edad del estudiante: ");
-                        int nuevaEdad = scanner.nextInt();
-                        scanner.nextLine();
-                        student.update(idActualizar, nuevoNombre, nuevaEdad);
-                        break;
+                    System.out.print("Ingrese el ID a actualizar: ");
+                    int idActualizar = scanner.nextInt();
+                    scanner.nextLine(); // Consumir el salto de línea
+                    System.out.print("Ingrese el nuevo nombre del estudiante: ");
+                    String nuevoNombre = scanner.nextLine();
+                    System.out.print("Ingrese la nueva edad del estudiante: ");
+                    int nuevaEdad = scanner.nextInt();
+                    Student student2 = new Student(nuevoNombre, nuevaEdad);
+                    student.update(idActualizar, student2);
+                    break;
                     case 6:
                         System.out.println("Saliendo...");
                         exit = true;

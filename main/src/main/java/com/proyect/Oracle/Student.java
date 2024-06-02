@@ -52,11 +52,10 @@ public class Student {
         System.out.println(automaticMapping.searchById(nameClass, id));
     }
 
-    public void update(int id,String name, int age) {
-        this.setName(name);
-        this.setAge(age);
-        automaticMapping.updateTable(nameClass, id, this);
+    public void update(int id, Student student) {
+        automaticMapping.updateTable(nameClass, id, student);
     }
+
 
     public void retrieveAll() {
         List<Map<String, Object>> results = automaticMapping.recuperarDeTabla(nameClass);
