@@ -1,4 +1,5 @@
 package com.proyect;
+
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ public class Student {
 
     public Student() {
     }
+
     public Student(String name, int age) {
         this.name = name;
         this.age = age;
@@ -18,7 +20,7 @@ public class Student {
     public String getName() {
         return name;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
@@ -35,11 +37,13 @@ public class Student {
     public String toString() {
         return "Student nombre " + name + " Edad " + age;
     }
+
     public void insert(String name, int age) {
         this.setName(name);
         this.setAge(age);
         automaticMapping.mapClassToTable(this);
     }
+
     public void delete(int id) {
         automaticMapping.deleteById(nameClass, id);
     }
@@ -56,6 +60,18 @@ public class Student {
         List<Map<String, Object>> results = automaticMapping.recuperarDeTabla(nameClass);
         for (Map<String, Object> row : results) {
             System.out.println(row);
+        }
+    }
+
+    public void retrieveID(int id) {
+        List<Map<String, Object>> results = automaticMapping.searchById(nameClass, id);
+
+        if (results.isEmpty()) {
+            System.out.println("No se encontraron estudiantes con ese ID.");
+        } else {
+            for (Map<String, Object> row : results) {
+                System.out.println(row);
+            }
         }
     }
 

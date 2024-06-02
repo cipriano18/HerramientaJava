@@ -1,4 +1,5 @@
 package com.proyect;
+
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -138,22 +139,23 @@ public class AutomaticMapping {
 
     public List<Map<String, Object>> searchById(String className, int id) {
         List<Map<String, Object>> results = new ArrayList<>();
-        try (Connection connection = ConnectionsToDatabases.connectOracle()) {
-            String query = "SELECT * FROM " + className + " WHERE id = ?";
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setInt(1, id);
-                try (ResultSet resultSet = statement.executeQuery()) {
-                    while (resultSet.next()) {
-                        Map<String, Object> row = new HashMap<>();
-                        row.put("ID", resultSet.getInt("ID"));
-                        row.put("NAME", resultSet.getString("NAME"));
-                        row.put("AGE", resultSet.getInt("AGE"));
-                        results.add(row);
-                    }
+        String query = "SELECT * FROM " + className + " WHERE id = ?";
+        try (Connection connection = ConnectionsToDatabases.connectOracle();
+                PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Map<String, Object> row = new HashMap<>();
+                    row.put("ID", resultSet.getInt("ID"));
+                    row.put("NAME", resultSet.getString("NAME"));
+                    row.put("AGE", resultSet.getInt("AGE"));
+                    results.add(row);
                 }
             }
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Unexpected error: " + e.getMessage());
         }
         return results;
     }
@@ -206,5 +208,4 @@ public class AutomaticMapping {
         }
     }
 
-    
 }

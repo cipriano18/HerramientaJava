@@ -44,9 +44,9 @@ public class CompilationOracle {
                         student.retrieveAll();
                         break;
                     case 4:
-                        System.out.print("Ingrese el ID a buscar: ");
-                        int idBuscar = scanner.nextInt();
-                        student.searchById(idBuscar);
+                        //System.out.print("Ingrese el ID a buscar: ");
+                        int idBuscar = 123456789; //scanner.nextInt();
+                        student.retrieveID(idBuscar);
                         break;
                     case 5:
                         System.out.print("Ingrese el ID a actualizar: ");

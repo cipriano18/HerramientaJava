@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) throws IllegalAccessException, SQLException {
-        int option = 2;
+        int option = 1;
 
         if (option == 1) {
             CompilationOracle compilationOracle = new CompilationOracle();
