@@ -1,8 +1,10 @@
-package com.proyect;
+package com.proyect.Oracle;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
+
+import com.proyect.MongoBD.ConnectionsToDatabases;
 
 public class CompilationOracle {
     public void mainOracle() throws SQLException {
@@ -16,7 +18,7 @@ public class CompilationOracle {
             boolean exit = false;
 
             while (!exit) {
-                System.out.println("Menú:");
+                System.out.println("Menú Oracle:");
                 System.out.println("1. Insertar datos en la base de datos");
                 System.out.println("2. Eliminar estudiante de la tabla");
                 System.out.println("3. Mostrar todos los estudiantes");
@@ -31,7 +33,7 @@ public class CompilationOracle {
                     case 1:
                         System.out.println("Ingrese el nombre del estudiante:");
                         String nombre = scanner.nextLine();
-                        System.out.println("Ingrese el número de cédula del estudiante:");
+                        System.out.println("Ingrese la edad del estudiante:");
                         int id = scanner.nextInt();
                         student.insert(nombre, id);
                         break;
@@ -44,14 +46,20 @@ public class CompilationOracle {
                         student.retrieveAll();
                         break;
                     case 4:
-                        //System.out.print("Ingrese el ID a buscar: ");
-                        int idBuscar = 123456789; //scanner.nextInt();
-                        student.retrieveID(idBuscar);
+                        System.out.print("Ingrese el ID a buscar: ");
+                        int idBuscar = scanner.nextInt();
+                        student.searchById(idBuscar);
                         break;
                     case 5:
                         System.out.print("Ingrese el ID a actualizar: ");
                         int idActualizar = scanner.nextInt();
-                        student.update(idActualizar);
+                        scanner.nextLine();
+                        System.out.print("Ingrese el nuevo nombre del estudiante: ");
+                        String nuevoNombre = scanner.nextLine();
+                        System.out.print("Ingrese la nueva edad del estudiante: ");
+                        int nuevaEdad = scanner.nextInt();
+                        scanner.nextLine();
+                        student.update(idActualizar, nuevoNombre, nuevaEdad);
                         break;
                     case 6:
                         System.out.println("Saliendo...");

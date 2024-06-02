@@ -1,4 +1,4 @@
-package com.proyect;
+package com.proyect.Oracle;
 
 import java.util.List;
 import java.util.Map;
@@ -49,10 +49,12 @@ public class Student {
     }
 
     public void searchById(int id) {
-        automaticMapping.searchById(nameClass, id);
+        System.out.println(automaticMapping.searchById(nameClass, id));
     }
 
-    public void update(int id) {
+    public void update(int id,String name, int age) {
+        this.setName(name);
+        this.setAge(age);
         automaticMapping.updateTable(nameClass, id, this);
     }
 
@@ -60,18 +62,6 @@ public class Student {
         List<Map<String, Object>> results = automaticMapping.recuperarDeTabla(nameClass);
         for (Map<String, Object> row : results) {
             System.out.println(row);
-        }
-    }
-
-    public void retrieveID(int id) {
-        List<Map<String, Object>> results = automaticMapping.searchById(nameClass, id);
-
-        if (results.isEmpty()) {
-            System.out.println("No se encontraron estudiantes con ese ID.");
-        } else {
-            for (Map<String, Object> row : results) {
-                System.out.println(row);
-            }
         }
     }
 

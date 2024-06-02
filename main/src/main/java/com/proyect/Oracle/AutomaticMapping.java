@@ -1,4 +1,4 @@
-package com.proyect;
+package com.proyect.Oracle;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.proyect.MongoBD.ConnectionsToDatabases;
 
 public class AutomaticMapping {
     private Connection connection;
@@ -139,23 +141,22 @@ public class AutomaticMapping {
 
     public List<Map<String, Object>> searchById(String className, int id) {
         List<Map<String, Object>> results = new ArrayList<>();
-        String query = "SELECT * FROM " + className + " WHERE id = ?";
-        try (Connection connection = ConnectionsToDatabases.connectOracle();
-                PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, id);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Map<String, Object> row = new HashMap<>();
-                    row.put("ID", resultSet.getInt("ID"));
-                    row.put("NAME", resultSet.getString("NAME"));
-                    row.put("AGE", resultSet.getInt("AGE"));
-                    results.add(row);
+        try (Connection connection = ConnectionsToDatabases.connectOracle()) {
+            String query = "SELECT * FROM " + className + " WHERE id = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, id);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Map<String, Object> row = new HashMap<>();
+                        row.put("ID", resultSet.getInt("ID"));
+                        row.put("NAME", resultSet.getString("NAME"));
+                        row.put("AGE", resultSet.getInt("AGE"));
+                        results.add(row);
+                    }
                 }
             }
-        } catch (SQLException e) {
-            System.out.println("Database error: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Unexpected error: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
         return results;
     }

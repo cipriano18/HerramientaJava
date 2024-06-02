@@ -1,4 +1,4 @@
-package com.proyect;
+package com.proyect.MongoBD;
 
 import static com.mongodb.client.model.Filters.eq;
 

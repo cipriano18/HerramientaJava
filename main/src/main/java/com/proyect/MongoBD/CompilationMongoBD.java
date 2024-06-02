@@ -1,4 +1,4 @@
-package com.proyect;
+package com.proyect.MongoBD;
 
 import com.mongodb.client.MongoDatabase;
 
@@ -36,8 +36,8 @@ public class CompilationMongoBD {
                     nuevoPerson.insert(nuevoPerson, mapeadorMongo);
                     break;
                 case 2:
-                    //System.out.print("Ingrese el ID del documento a eliminar: ");
-                    String idEliminar = "665c947402a680016f493e45";        //scanner.nextLine();
+                    System.out.print("Ingrese el ID del documento a eliminar: ");
+                    String idEliminar = scanner.nextLine();
                     person.delete(idEliminar, mapeadorMongo);
                     break;
                 case 3:

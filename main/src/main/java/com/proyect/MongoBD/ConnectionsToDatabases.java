@@ -1,4 +1,4 @@
-package com.proyect;
+package com.proyect.MongoBD;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

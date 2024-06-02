@@ -1,4 +1,4 @@
-package com.proyect;
+package com.proyect.MongoBD;
 
 public class person {
     private String nameClass = this.getClass().getSimpleName();
