@@ -12,7 +12,6 @@ public class ConnectionsToDatabases {
     private final static String user = "Stiff_Cipri";
     private final static String password = "stiff1824";
 
-    // Parámetros de conexión para MongoDB
     private static final String MONGO_URI = "mongodb://localhost:27017";
     private static final String MONGO_DATABASE_NAME = "Proyect_II";
 

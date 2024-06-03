@@ -53,7 +53,7 @@ public class CompilationOracle {
                     case 5:
                     System.out.print("Ingrese el ID a actualizar: ");
                     int idActualizar = scanner.nextInt();
-                    scanner.nextLine(); // Consumir el salto de línea
+                    scanner.nextLine();
                     System.out.print("Ingrese el nuevo nombre del estudiante: ");
                     String nuevoNombre = scanner.nextLine();
                     System.out.print("Ingrese la nueva edad del estudiante: ");

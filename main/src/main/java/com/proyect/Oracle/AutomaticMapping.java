@@ -203,7 +203,9 @@ public class AutomaticMapping {
                 }
                 statement.setInt(index, id);
                 statement.executeUpdate();
+                
             }
+            System.out.println("Exito al actualizarlo");
         } catch (SQLException | IllegalAccessException e) {
             System.err.println("Error al actualizar la tabla: " + e.getMessage());
         }
