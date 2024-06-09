@@ -17,19 +17,17 @@ public class AutomaticMappingMYSQL {
 
    
 
-    // CRUD INSERTAR ==========================================================================
+    
     public void insertar(Object objeto) {
         try {
             Class<?> clase = objeto.getClass();
             String nombreTabla = clase.getSimpleName().toLowerCase(); // Suponemos que el nombre de la tabla es igual al nombre de la clase en minúsculas
             try {
-                // Crear tabla si no existe
+            
                 crearTablaSiNoExiste(nombreTabla, clase);
             } catch (SQLException e) {
                 System.err.println("Error al crear la tabla: " + e.getMessage());
             }
-
-            // Insertar datos en la tabla
             insertarDatos(nombreTabla, clase, objeto);
         } catch (SQLException | IllegalAccessException e) {
             System.err.println("Error al mapear la clase a la tabla: " + e.getMessage());
@@ -76,8 +74,6 @@ public class AutomaticMappingMYSQL {
         query.append(nombreCampo).append(" ").append(tipoDato);
         query.append(", ");
     }
-
-    // Eliminar la coma y el espacio extra al final de la definición de la tabla
     query.delete(query.length() - 2, query.length());
     query.append(")");
 
@@ -98,7 +94,7 @@ public class AutomaticMappingMYSQL {
         } else if (tipo == boolean.class || tipo == Boolean.class) {
             return "BOOLEAN";
         } else {
-            return "VARCHAR(255)"; // Por defecto, se considera como String
+            return "VARCHAR(255)";
         }
     }
      private void insertarDatos(String nombreTabla, Class<?> clase, Object objeto) throws SQLException, IllegalAccessException {
@@ -114,8 +110,6 @@ public class AutomaticMappingMYSQL {
             query.append(nombreCampo).append(", ");
             values.append("'").append(valorCampo).append("', ");
         }
-
-        // Eliminar la coma y el espacio extra al final de las listas de campos y valores
         query.delete(query.length() - 2, query.length());
         values.delete(values.length() - 2, values.length());
 
