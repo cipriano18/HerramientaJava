@@ -1,10 +1,10 @@
 package com.proyect.Oracle;
 
+import com.proyect.Connections.ConnectionsToDatabases;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import com.proyect.MongoBD.ConnectionsToDatabases;
 
 public class CompilationOracle {
     public void mainOracle() throws SQLException {
@@ -35,7 +35,7 @@ public class CompilationOracle {
                         String nombre = scanner.nextLine();
                         System.out.println("Ingrese la edad del estudiante:");
                         int id = scanner.nextInt();
-                        student.insert(nombre, id);
+                        student.insert(nombre, id); 
                         break;
                     case 2:
                         System.out.print("Ingrese el ID a eliminar: ");
