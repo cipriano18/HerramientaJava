@@ -58,7 +58,7 @@ public class CompilationMongoBD {
                     int nuevaEdad = scanner.nextInt();
                     scanner.nextLine();
                     person actualizarPerson = new person(nuevoNombre, nuevaEdad);
-                    person.update(idActualizar, actualizarPerson, mapeadorMongo);;
+                    person.update(idActualizar, actualizarPerson, mapeadorMongo);
                     break;
                 case 6:
                     System.out.println("Saliendo...");
