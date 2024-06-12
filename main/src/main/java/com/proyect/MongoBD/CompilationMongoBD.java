@@ -17,10 +17,10 @@ public class CompilationMongoBD {
         while (!exit) {
             System.out.println("Menú MongoDB:");
             System.out.println("1. Insertar datos en la base de datos");
-            System.out.println("2. Eliminar documento de la colección");
-            System.out.println("3. Mostrar todos los documentos");
-            System.out.println("4. Buscar documento por ID");
-            System.out.println("5. Actualizar un documento");
+            System.out.println("2. Eliminar persona");
+            System.out.println("3. Mostrar todos las persona");
+            System.out.println("4. Buscar persona por ID");
+            System.out.println("5. Actualizar una persona");
             System.out.println("6. Salir");
             System.out.print("Seleccione una opción: ");
             int opcion = scanner.nextInt();
@@ -28,16 +28,16 @@ public class CompilationMongoBD {
 
             switch (opcion) {
                 case 1:
-                    System.out.print("Ingrese el nombre del objeto: ");
+                    System.out.print("Ingrese el nombre de al persona: ");
                     String nombre = scanner.nextLine();
-                    System.out.print("Ingrese la edad del objeto: ");
+                    System.out.print("Ingrese la edad de la persona: ");
                     int edad = scanner.nextInt();
                     scanner.nextLine();
                     person nuevoPerson = new person(nombre, edad);
                     nuevoPerson.insert(nuevoPerson, mapeadorMongo);
                     break;
                 case 2:
-                    System.out.print("Ingrese el ID del documento a eliminar: ");
+                    System.out.print("Ingrese el ID de la persona a eliminar: ");
                     String idEliminar = scanner.nextLine();
                     person.delete(idEliminar, mapeadorMongo);
                     break;
@@ -45,16 +45,16 @@ public class CompilationMongoBD {
                     person.read(mapeadorMongo);
                     break;
                 case 4:
-                    System.out.print("Ingrese el ID del documento a buscar: ");
+                    System.out.print("Ingrese el ID de la persona a buscar: ");
                     String idBuscar = scanner.nextLine();
                     person.readById(idBuscar, mapeadorMongo);
                     break;
                 case 5:
-                    System.out.print("Ingrese el ID del documento a actualizar: ");
+                    System.out.print("Ingrese el ID de la persona a actualizar: ");
                     String idActualizar = scanner.nextLine();
-                    System.out.print("Ingrese el nuevo nombre del objeto: ");
+                    System.out.print("Ingrese el nuevo nombre de la persona: ");
                     String nuevoNombre = scanner.nextLine();
-                    System.out.print("Ingrese la nueva edad del objeto: ");
+                    System.out.print("Ingrese la nueva edad de la persona: ");
                     int nuevaEdad = scanner.nextInt();
                     scanner.nextLine();
                     person actualizarPerson = new person(nuevoNombre, nuevaEdad);
