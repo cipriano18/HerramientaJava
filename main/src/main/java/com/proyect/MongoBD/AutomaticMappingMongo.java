@@ -3,7 +3,6 @@ package com.proyect.MongoBD;
 import static com.mongodb.client.model.Filters.eq;
 
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 
@@ -37,7 +36,6 @@ public class AutomaticMappingMongo {
     private Document convertirAJson(Object object, Class<?> clase) throws IllegalAccessException {
         Document doc = new Document();
         Field[] campos = clase.getDeclaredFields();
-        String idFieldName = clase.getSimpleName().toLowerCase() + "_id";
 
         for (Field campo : campos) {
             campo.setAccessible(true);

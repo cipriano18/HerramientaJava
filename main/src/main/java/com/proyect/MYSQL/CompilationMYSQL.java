@@ -14,12 +14,12 @@ public class CompilationMYSQL {
             boolean exit = false;
 
             while (!exit) {
-                System.out.println("Menú Oracle:");
+                System.out.println("Menú MySQL:");
                 System.out.println("1. Insertar datos en la base de datos");
-                System.out.println("2. Eliminar estudiante de la tabla");
-                System.out.println("3. Mostrar todos los estudiantes");
-                System.out.println("4. Buscar estudiante por ID");
-                System.out.println("5. Actualizar un estudiante");
+                System.out.println("2. Eliminar jugador de futbol de la tabla");
+                System.out.println("3. Mostrar todos los jugaodres de futbol");
+                System.out.println("4. Buscar jugador de futbol por ID");
+                System.out.println("5. Actualizar un jugador de futbol");
                 System.out.println("6. Salir");
                 System.out.print("Seleccione una opción: ");
                 int opcion = scanner.nextInt();

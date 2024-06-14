@@ -1,16 +1,15 @@
 package com.proyect;
 
-import com.proyect.MYSQL.CompilationMYSQL;
 import java.sql.SQLException;
 import java.util.Scanner;
-
 import com.proyect.MongoBD.CompilationMongoBD;
 import com.proyect.Oracle.CompilationOracle;
+import com.proyect.MYSQL.CompilationMYSQL;
 
 public class Main {
     public static void main(String[] args) throws IllegalAccessException, SQLException {
         Scanner scanner = new Scanner(System.in);
-        boolean exit= false;
+        boolean exit = false;
 
         while (!exit) {
             System.out.println("Ingrese 1 para utilizar la base de datos Oracle");
@@ -42,7 +41,7 @@ public class Main {
                     compilationMySQL.mainMYSQL(scanner);
                     break;
                 case 4:
-                    exit= true;
+                    exit = true;
                     System.out.println("Saliendo del programa...");
                     break;
                 default:
@@ -54,7 +53,7 @@ public class Main {
                 System.out.println("¿Desea utilizar otra base de datos? (si/no)");
                 String respuesta = scanner.nextLine().toLowerCase();
                 if (!respuesta.equals("si")) {
-                   exit = true;
+                    exit = true;
                     System.out.println("Saliendo del programa...");
                 }
             }
