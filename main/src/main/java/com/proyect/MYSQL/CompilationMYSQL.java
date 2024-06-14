@@ -6,13 +6,11 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class CompilationMYSQL {
-    public void mainMYSQL() throws SQLException {
+    public void mainMYSQL(Scanner scanner) throws SQLException {
         SoccerPlayer soccerPlayer = new SoccerPlayer();
         Connection connection = ConnectionsToDatabases.connectMYSQUL();
         AutomaticMappingMYSQL automaticMappingMYSQL = new AutomaticMappingMYSQL(connection);
         soccerPlayer.setAutomaticMappingMYSQL(automaticMappingMYSQL);
-
-        try (Scanner scanner = new Scanner(System.in)) {
             boolean exit = false;
 
             while (!exit) {
@@ -78,4 +76,3 @@ public class CompilationMYSQL {
             }
         }
     }
-}

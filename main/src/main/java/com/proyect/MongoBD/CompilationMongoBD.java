@@ -6,10 +6,9 @@ import com.proyect.Connections.ConnectionsToDatabases;
 import java.util.Scanner;
 
 public class CompilationMongoBD {
-    public void mainMongoBD() {
+    public void mainMongoBD(Scanner scanner) {
         MongoDatabase conexionMongo = ConnectionsToDatabases.conectarMongoDB();
         AutomaticMappingMongo mapeadorMongo = new AutomaticMappingMongo(conexionMongo);
-        Scanner scanner = new Scanner(System.in);
         boolean exit = false;
 
         person person = new person();
